@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  proglove_back:
+    image: proglove_back
+    restart: unless-stopped
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    container_name: proglove_back
+    ports: 
+      - '3000:3000'

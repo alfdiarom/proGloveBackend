@@ -1,0 +1,70 @@
+swagger: "2.0"
+info:
+  description: Api Socket IO & Redis
+  version: 1.1.1
+  title: Socket-SRV
+host: "${IO_HOST}:${IO_PORT}"
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+  - application/xml
+  - application/x-www-form-urlencoded
+produces:
+  - application/json
+  - application/xml
+  - application/x-www-form-urlencoded
+paths:
+  /ioMessage:
+    get:
+      operationId: ioMessage
+      tags:
+        - SOCKET-IO
+      summary: Envia payload tipo 'mensaje' mediante metodo GET y se replica en Socket IO por el canal especificado
+      parameters:
+        - name: channel
+          in: query
+          required: true
+          description: Canal por el que replica el mensaje
+          type: string
+        - name: message
+          in: query
+          required: true
+          description: Mensaje
+          type: string        
+      responses:
+        "200":
+          description: Success.
+        "400":
+          description: Error.
+      x-swagger-router-controller: modules
+  /postSocket:
+    post:
+      operationId: postSocket
+      tags:
+        - SOCKET-IO
+      summary: Envia payload mediante POST
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          description: JSON con datos del dispositivo proGlove
+          schema:
+            $ref: "#/definitions/socketData"
+      responses:
+        "200":
+          description: Success.
+        "400":
+          description: Error.
+      x-swagger-router-controller: modules
+definitions:
+  socketData:
+    type: object
+    properties:
+      readText:
+        type: string
+      timestamp:
+        type: string
+      serial: 
+        type: string
